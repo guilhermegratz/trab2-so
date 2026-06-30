@@ -5,6 +5,11 @@
  * tabela de páginas e dos quadros de página física, contabilização
  * de estatísticas, e a lógica central de tratamento de um acesso
  * à memória (tratar_acesso), comum a todos os algoritmos.
+ *
+ * Integrantes do grupo:
+ *   Rafael Prates       - 2210234
+ *   Thiago Coqueiro     - (matrícula pendente)
+ *   Guilherme Gratz     - (matrícula pendente)
  */
 
 #include <stdio.h>

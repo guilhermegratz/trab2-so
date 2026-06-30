@@ -6,6 +6,11 @@
  * verificando o bit R do quadro apontado: se R=1, zera o bit e
  * avança (dando uma "segunda chance" à página); se R=0, a página
  * daquele quadro é escolhida como vítima.
+ *
+ * Integrantes do grupo:
+ *   Rafael Prates       - 2210234
+ *   Thiago Coqueiro     - (matrícula pendente)
+ *   Guilherme Gratz     - (matrícula pendente)
  */
 
 #include <stddef.h>

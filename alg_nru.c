@@ -13,6 +13,11 @@
  * O bit R de todos os quadros ocupados é periodicamente zerado, a
  * cada NRU_RESET_INTERVAL acessos processados (definido em
  * memsim.h), simulando o reset feito por um timer/relógio do SO.
+ *
+ * Integrantes do grupo:
+ *   Rafael Prates       - 2210234
+ *   Thiago Coqueiro     - (matrícula pendente)
+ *   Guilherme Gratz     - (matrícula pendente)
  */
 
 #include <stddef.h>

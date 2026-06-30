@@ -4,6 +4,11 @@
  * Algoritmo LRU (Least Recently Used): escolhe como vítima o quadro
  * ocupado com o menor timestamp de último acesso (campo
  * Frame.last_access, mantido por memsim.c a cada acesso/carga).
+ *
+ * Integrantes do grupo:
+ *   Rafael Prates       - 2210234
+ *   Thiago Coqueiro     - (matrícula pendente)
+ *   Guilherme Gratz     - (matrícula pendente)
  */
 
 #include <stddef.h>

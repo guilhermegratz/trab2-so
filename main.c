@@ -4,6 +4,11 @@
  * sim-virtual - Simulador de memória virtual (paginação) para o
  * Segundo Trabalho de Sistemas Operacionais - INF1316.
  *
+ * Integrantes do grupo:
+ *   Rafael Prates       - 2210234
+ *   Thiago Coqueiro     - (matrícula pendente)
+ *   Guilherme Gratz     - (matrícula pendente)
+ *
  * Uso:
  *   sim-virtual <algoritmo> <arquivo.log> <tam_pagina_KB> <tam_memoria_MB>
  *

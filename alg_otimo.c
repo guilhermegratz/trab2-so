@@ -13,6 +13,11 @@
  * mesma página (ou -1 se não houver), em O(n) com uma única
  * varredura de trás para frente.
  *
+ * Integrantes do grupo:
+ *   Rafael Prates       - 2210234
+ *   Thiago Coqueiro     - (matrícula pendente)
+ *   Guilherme Gratz     - (matrícula pendente)
+ *
  * Como cada quadro guarda em last_access o índice (= "time") do
  * acesso que o trouxe/usou por último, e como o "time" do simulador
  * avança exatamente 1 unidade por acesso processado (coincidindo
