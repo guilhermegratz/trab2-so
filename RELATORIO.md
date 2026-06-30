@@ -242,6 +242,99 @@ a corretude foi verificada por **invariantes teóricas** que devem valer em
 Adicionalmente, fez-se uma revisão de código confirmando a aderência da lógica
 de cada algoritmo às definições do material de aula (slides 47–53).
 
+### 6.2 Saídas obtidas — exemplos representativos
+
+A seguir são transcritas saídas reais do `sim-virtual`, no formato exato exigido
+pelo enunciado, para casos que ilustram os comportamentos mais relevantes da §8.
+
+**Alta pressão de memória — LRU (compilador, 4 KB, 1 MB):**
+
+```
+Executando o simulador...
+Arquivo de entrada: arquivos/compilador.log
+Tamanho da memoria fisica: 1 MB
+Tamanho das paginas: 4 KB
+Algoritmo de substituicao: LRU
+Numero de Faltas de Paginas: 25308
+Numero de Paginas Escritas: 4231
+```
+
+**Mesmo cenário com o algoritmo Ótimo — 2× menos faltas que o LRU:**
+
+```
+Executando o simulador...
+Arquivo de entrada: arquivos/compilador.log
+Tamanho da memoria fisica: 1 MB
+Tamanho das paginas: 4 KB
+Algoritmo de substituicao: Otimo
+Numero de Faltas de Paginas: 12667
+Numero de Paginas Escritas: 2483
+```
+
+**Compressor atingindo saturação (4 KB, 2 MB) — todo o working set cabe na memória,
+zero substituições e zero escritas:**
+
+```
+Executando o simulador...
+Arquivo de entrada: arquivos/compressor.log
+Tamanho da memoria fisica: 2 MB
+Tamanho das paginas: 4 KB
+Algoritmo de substituicao: LRU
+Numero de Faltas de Paginas: 317
+Numero de Paginas Escritas: 0
+```
+
+**Trade-off clássico do NRU — muitas faltas, poucas escritas
+(compilador, 4 KB, 4 MB):**
+
+```
+Executando o simulador...
+Arquivo de entrada: arquivos/compilador.log
+Tamanho da memoria fisica: 4 MB
+Tamanho das paginas: 4 KB
+Algoritmo de substituicao: NRU
+Numero de Faltas de Paginas: 22559
+Numero de Paginas Escritas: 239
+```
+
+**LRU no mesmo cenário — 5× menos faltas, mas 4× mais escritas:**
+
+```
+Executando o simulador...
+Arquivo de entrada: arquivos/compilador.log
+Tamanho da memoria fisica: 4 MB
+Tamanho das paginas: 4 KB
+Algoritmo de substituicao: LRU
+Numero de Faltas de Paginas: 4391
+Numero de Paginas Escritas: 955
+```
+
+**Trade-off do NRU revertido — NRU pior em AMBAS as métricas
+(simulador, 8 KB, 4 MB):**
+
+```
+Executando o simulador...
+Arquivo de entrada: arquivos/simulador.log
+Tamanho da memoria fisica: 4 MB
+Tamanho das paginas: 8 KB
+Algoritmo de substituicao: NRU
+Numero de Faltas de Paginas: 20944
+Numero de Paginas Escritas: 3952
+```
+
+```
+Executando o simulador...
+Arquivo de entrada: arquivos/simulador.log
+Tamanho da memoria fisica: 4 MB
+Tamanho das paginas: 8 KB
+Algoritmo de substituicao: LRU
+Numero de Faltas de Paginas: 4732
+Numero de Paginas Escritas: 2094
+```
+
+Aqui o NRU tem 4,4× mais faltas **e** 89% mais escritas que o LRU — sendo
+dominado em ambas as dimensões. A §8.7 explica essa inversão.
+
 ---
 
 ## 7. Tabela de Resultados
@@ -393,15 +486,23 @@ isso, a maioria das páginas cai nas classes 2 e 3 e a "escolha por classe"
 degenera para algo próximo de uma escolha quase arbitrária (primeira página da
 classe), perdendo a noção de localidade temporal.
 
-> **Trade-off importante do NRU — menos escritas, mais faltas.** Embora o NRU
-> falte muito mais, ele tende a **escrever menos páginas sujas**, porque sua
-> ordem de classes prioriza descartar páginas **limpas** (classes 0 e 2) antes
-> das **sujas** (classes 1 e 3). Exemplo claro: `compilador` 4 KB / 4 MB — o NRU
-> escreve apenas **239** páginas sujas, contra **955** do LRU, apesar de fazer
-> ~5× mais faltas (22.559 vs. 4.391). Ou seja, o NRU otimiza implicitamente o
-> número de escritas em disco, ao custo de muito mais faltas. Esse é um ponto de
-> projeto relevante: se as escritas a disco forem o gargalo, o critério do NRU
-> tem mérito; se o gargalo for o número de faltas, ele é uma má escolha.
+> **Trade-off do NRU — redução de escritas não é universal.** O NRU prioriza
+> descartar páginas limpas (classes 0 e 2) antes das sujas (classes 1 e 3), o
+> que tende a reduzir escritas em disco. Exemplo claro: `compilador` 4 KB / 4 MB
+> — NRU escreve apenas **239** páginas sujas contra **955** do LRU, com ~5×
+> mais faltas (22.559 vs. 4.391). **Porém, esse trade-off não se mantém para
+> todos os workloads.** Para o `simulador` (8 KB / 4 MB), o NRU faz **20.944**
+> faltas e ainda escreve **3.952** páginas — contra **4.732** faltas e **2.094**
+> escritas do LRU: o NRU é 4,4× pior em faltas e 89% pior em escritas
+> simultaneamente. A causa: no `simulador`, as páginas que o NRU classifica como
+> limpas (R=0, M=0) coincidem com as pertencentes ao working set ativo (que têm
+> alta taxa de modificação mas foram reinicializadas pelo reset periódico de R),
+> fazendo com que vítimas escolhidas sejam sujas com frequência. O mecanismo de
+> redução de escritas depende de o perfil de localidade correlacionar-se com o
+> perfil de escrita — o que não acontece para todos os programas.
+> **Conclusão prática:** o NRU é a pior escolha para o `simulador` em todas as
+> métricas; para o `compilador` com memória folgada pode valer a pena se o
+> gargalo forem as escritas a disco.
 
 ### 8.2 Efeito do aumento da memória física
 
@@ -471,6 +572,45 @@ apenas de **referência** em simulação. Observando os dados:
   LRU faz o dobro de faltas do Ótimo.
 - **NRU fica sempre muito acima do Ótimo**, por ser a aproximação mais grosseira.
 
+### 8.7 Distância entre Relógio e LRU
+
+O Relógio é consistentemente pouco pior que o LRU, mas a diferença é pequena e
+previsível. Medindo o *overhead relativo* (Relógio − LRU) / LRU para as
+configurações com 4 KB de página:
+
+| Arquivo      | 1 MB | 2 MB | 4 MB |
+|---|---:|---:|---:|
+| compilador   | +5,9% | +10,1% | +8,5% |
+| matriz       | +5,4% | +4,5%  | +3,5% |
+| simulador    | +5,7% | +5,1%  | +3,4% |
+
+O overhead fica na faixa de **3–10%** para todos os programas com pressão
+moderada ou alta. Isso confirma que o **Relógio é uma boa aproximação do LRU**
+com custo de implementação muito menor (não precisa manter um timestamp por
+quadro, apenas um bit R e um ponteiro), validando o diagnóstico teórico do
+material de aula.
+
+### 8.8 A razão NRU / LRU cresce com a memória disponível
+
+Um resultado contraintuitivo é que o NRU se torna **relativamente pior** (não
+melhor) à medida que a memória aumenta. A razão NRU / LRU em faltas para o
+`compilador` (4 KB) é:
+
+| Memória | Faltas LRU | Faltas NRU | Razão NRU / LRU |
+|---:|---:|---:|---:|
+| 1 MB | 25.308 | 41.819 | **1,65×** |
+| 2 MB | 10.425 | 38.178 | **3,66×** |
+| 4 MB |  4.391 | 22.559 | **5,14×** |
+
+O LRU aproveita eficientemente cada quadro adicional (o working set vai
+convergindo para a memória), reduzindo as faltas de forma acentuada. O NRU não
+aproveita com a mesma eficiência: o reset periódico do bit R faz com que páginas
+do working set acumulem R=0 e sejam escolhidas como vítimas, impedindo que o
+conjunto residente estabilize mesmo com memória abundante. Ou seja, **o NRU
+desperdiça quadros livres** — mais memória não o ajuda tanto quanto ajuda o LRU.
+O mesmo padrão ocorre para `simulador` (4 KB): razão 2,30× com 1 MB, 4,15× com
+2 MB e 4,09× com 4 MB.
+
 ---
 
 ## 9. Conclusão
@@ -513,7 +653,7 @@ linha de comando; e liberar explicitamente toda a memória ao final.
 |---|---|
 | Código-fonte `.c` (main, memsim, alg_lru, alg_nru, alg_clock, alg_otimo) | ✅ presente |
 | Cabeçalhos `.h` (memsim, algoritmo, alg_*) | ✅ presente |
-| Identificação do grupo no cabeçalho dos fontes | ⬜ **pendente — preencher os integrantes** |
+| Identificação do grupo no cabeçalho dos fontes | ✅ preenchidos em todos os `.c` (Rafael Prates 2210234 · Thiago Coqueiro · Guilherme Gratz — matrículas pendentes para os dois últimos) |
 | Relatório (`RELATORIO.md`) | ✅ este arquivo |
 | Versão `.pdf` do relatório (se exigida pela entrega) | ⬜ gerar a partir deste `.md` |
 | Tabela de simulações | ✅ §7 (e `resultados.csv`) |
