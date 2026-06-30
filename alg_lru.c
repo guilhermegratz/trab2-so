@@ -7,8 +7,8 @@
  *
  * Integrantes do grupo:
  *   Rafael Prates       - 2210234
- *   Thiago Coqueiro     - (matrícula pendente)
- *   Guilherme Gratz     - (matrícula pendente)
+ *   Thiago Coqueiro     - 2210799
+ *   Guilherme Gratz     - 2211068
  */
 
 #include <stddef.h>

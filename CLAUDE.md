@@ -147,10 +147,9 @@ trab2-so/
 - ✅ **Relatório**: `RELATORIO.md` completo (resumo, algoritmos, pseudo-código do
   Ótimo, tabela e análise de desempenho com dados reais).
 - ✅ **Cabeçalhos com os integrantes do grupo** preenchidos em todos os `.c` e no
-  `RELATORIO.md`. Integrantes: Rafael Prates (2210234), Thiago Coqueiro e
-  Guilherme Gratz. **Atenção:** as matrículas de Thiago Coqueiro e Guilherme
-  Gratz estão marcadas como "(matrícula pendente)" — substituir assim que forem
-  informadas (todos os 6 arquivos `.c` e o `RELATORIO.md`).
+  `RELATORIO.md`. Integrantes: Rafael Prates (2210234), Thiago Coqueiro (2210799)
+  e Guilherme Gratz (2211068). Divisão: Rafael → LRU + Ótimo; Thiago → NRU +
+  memsim; Guilherme → Relógio + main.c + simulações + relatório.
 - ⬜ **Gerar `.pdf`** do relatório a partir do `.md`, se a entrega exigir PDF.
 - ⬜ **Empacotamento**: remover `arquivos/*.log` e o executável do kit final.
 

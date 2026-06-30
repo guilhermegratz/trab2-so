@@ -9,8 +9,8 @@
 | **Trabalho** | 2º Trabalho — Gerência de Memória (Memória Virtual / Paginação) |
 | **Período** | 2026-1 |
 | **Professor** | _(preencher)_ |
-| **Integrantes do grupo** | Rafael Prates — 2210234 · Thiago Coqueiro — (matrícula pendente) · Guilherme Gratz — (matrícula pendente) |
-| **Divisão de tarefas** | _(preencher — qual integrante implementou/executou cada algoritmo, conforme exigência do enunciado)_ |
+| **Integrantes do grupo** | Rafael Prates — 2210234 · Thiago Coqueiro — 2210799 · Guilherme Gratz — 2211068 |
+| **Divisão de tarefas** | Rafael Prates: algoritmos LRU e Ótimo (MIN/Belady) · Thiago Coqueiro: algoritmo NRU e núcleo da simulação (memsim.c/.h) · Guilherme Gratz: algoritmo Relógio (Clock), main.c, execução das 96 simulações e redação do relatório |
 
 > Enunciado adaptado de um trabalho prático do prof. Dorgival Guedes Neto (DCC/UFMG).
 
