@@ -653,33 +653,41 @@ linha de comando; e liberar explicitamente toda a memória ao final.
 |---|---|
 | Código-fonte `.c` (main, memsim, alg_lru, alg_nru, alg_clock, alg_otimo) | ✅ presente |
 | Cabeçalhos `.h` (memsim, algoritmo, alg_*) | ✅ presente |
-| Identificação do grupo no cabeçalho dos fontes | ✅ preenchidos em todos os `.c` (Rafael Prates 2210234 · Thiago Coqueiro · Guilherme Gratz — matrículas pendentes para os dois últimos) |
+| Identificação do grupo no cabeçalho dos fontes | ✅ preenchidos em todos os `.c` (Rafael Prates 2210234 · Thiago Coqueiro 2210799 · Guilherme Gratz 2211068) |
 | Relatório (`RELATORIO.md`) | ✅ este arquivo |
-| Versão `.pdf` do relatório (se exigida pela entrega) | ⬜ gerar a partir deste `.md` |
+| Versão `.pdf` do relatório | ⬜ gerar a partir deste `.md` |
 | Tabela de simulações | ✅ §7 (e `resultados.csv`) |
 | Pseudocódigo do algoritmo Ótimo | ✅ §5 |
-| Makefile | ✅ presente |
 | Instruções de compilação | ✅ ver abaixo |
 | Instruções de execução | ✅ ver abaixo |
 | Arquivos `.log` **removidos** do pacote final | ⬜ **remover `arquivos/` do kit de entrega** |
-| Executável (`sim-virtual.exe`) removido do kit | ⬜ remover artefatos de build |
+| Executável removido do kit | ⬜ remover artefatos de build |
 
-### Instruções de compilação
-
-```sh
-make                 # ou, manualmente:
-gcc -O2 -Wall -Wextra -std=c11 -o sim-virtual \
-    main.c memsim.c alg_lru.c alg_nru.c alg_clock.c alg_otimo.c
-```
-
-### Instruções de execução
+### Compilação
 
 ```sh
-./sim-virtual <algoritmo> <arquivo.log> <tam_pagina_KB> <tam_memoria_MB>
-# Exemplos:
-./sim-virtual LRU     arquivos/compilador.log 8 2
-./sim-virtual Otimo   arquivos/matriz.log     4 4
-
-# Para reproduzir TODA a tabela de resultados (requer os .log):
-make simulacoes      # gera resultados.csv
+gcc -o sim-virtual main.c memsim.c alg_lru.c alg_nru.c alg_clock.c alg_otimo.c
 ```
+
+### Execução (conforme enunciado)
+
+```sh
+sim-virtual <algoritmo> <arquivo.log> <tam_pagina_KB> <tam_memoria_MB>
+```
+
+Exemplos:
+
+```sh
+sim-virtual LRU      compilador.log 8 2
+sim-virtual NRU      compressor.log 4 1
+sim-virtual Relogio  matriz.log     4 4
+sim-virtual Otimo    simulador.log  8 4
+```
+
+### Reproduzir todas as simulações
+
+```sh
+bash run_simulacoes.sh
+```
+
+Roda as 96 combinações, imprime a tabela no terminal e grava `resultados.csv`.
