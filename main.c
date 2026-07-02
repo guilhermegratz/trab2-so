@@ -147,7 +147,6 @@ static void simular(Acesso *vetor_acessos, int n) {
 
 /* Imprime o relatório final no formato especificado no enunciado. */
 static void imprimir_relatorio(const Config *config, const Stats *stats) {
-    printf("Executando o simulador...\n");
     printf("Arquivo de entrada: %s\n", config->arquivo);
     printf("Tamanho da memoria fisica: %d MB\n", config->tam_memoria_mb);
     printf("Tamanho das paginas: %d KB\n", config->tam_pagina_kb);
@@ -203,6 +202,7 @@ int main(int argc, char **argv) {
         algo->inicializar(num_quadros);
     }
 
+    printf("Executando o simulador...\n");
     simular(vetor_acessos, n);
 
     imprimir_relatorio(&config, obter_stats());
